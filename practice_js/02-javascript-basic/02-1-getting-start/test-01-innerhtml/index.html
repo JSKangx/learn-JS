@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      #title {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Hello Javascript</h1>
+    <button onclick="myButtonClick()">click me!</button>
+
+    <!-- 아래에는 script 코드 작성 -->
+    <script>
+      // myButtonClick 함수는 버튼을 눌렀을 때 h1 노드의 배경색이 바뀌게 하는 함수
+      const myButtonClick = () => {
+        let title = document.getElementById("title");
+        if (title.style.backgroundColor === "yellow") {
+          title.style.backgroundColor = "pink";
+        } else {
+          title.style.backgroundColor = "yellow";
+        }
+      };
+    </script>
+  </body>
+</html>

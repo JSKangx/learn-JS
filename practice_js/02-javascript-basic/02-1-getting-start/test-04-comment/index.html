@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 이부분은 css 주석입니다. */
+      body {
+        text-align: center;
+      }
+      #title {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 이부분은 html 주석입니다. -->
+    <h1 id="title">javaScript</h1>
+    <button onclick="myButtonClick()">Click me!</button>
+
+    <script>
+      // 이부분은 js 한 줄 주석입니다.
+      /* 이 부분은
+         여러줄
+         js 주석입니다 
+      */
+      const myButtonClick = () => {
+        let sum = 0;
+        for (let i = 1; i < 11; i++) {
+          sum += i;
+        }
+        console.log(sum);
+      };
+    </script>
+  </body>
+</html>

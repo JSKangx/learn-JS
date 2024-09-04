@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button onclick="dialogTest()">dialog test</button>
+    </div>
+    <script>
+      const dialogTest = () => {
+        // (1) alert함수의 결과를 console.log에 띄워보자.
+        // let result1 = alert("안녕하세요");
+        // console.log("alert result: " + result1);
+
+        // (2) confirm 함수 결과 확인하기.
+        // 취소버튼 : false, 확인버튼 : true
+        // let result2 = confirm("로그인 화면으로 이동하시겠어요?");
+        // console.log("confirm result: " + result2);
+        // if (result2) {
+        //   console.log("로그인 화면으로 이동합니다.");
+        // } else {
+        //   console.log("로그인 화면으로 이동하지 않습니다.");
+        // }
+
+        // (3) prompt 함수 결과 확인하기.
+        /* 
+            취소버튼 : null
+            입력 안 하고 확인 : 빈문자열
+            입력하고 확인 : 입력값
+        */
+        let result3 = prompt("숫자를 입력해주세요");
+        console.log("prompt resutl: " + result3);
+      };
+    </script>
+
+    <!-- document.write() 테스트 -->
+    <div>
+      <button onclick="writeTest()">write test</button>
+    </div>
+    <script>
+      const writeTest = () => {
+        let name = prompt("이름을 입력해주세요");
+        document.write(
+          '<div> 안녕하세요 <b style="color:blue;">' +
+            name +
+            "</b>님, 환영합니다. </div>"
+        );
+      };
+    </script>
+
+    <!-- 다양한 형태의 console.log테스트 -->
+    <div>
+      <button onclick="consoleTest()">console test</button>
+    </div>
+    <script>
+      const consoleTest = () => {
+        console.log("첫번째 로그 출력입니다.");
+        console.log("두번째 출력입니다.", "홍길동", "김길동", "이길동");
+        console.log("세번째 출력입니다.", 10, true);
+      };
+    </script>
+  </body>
+</html>

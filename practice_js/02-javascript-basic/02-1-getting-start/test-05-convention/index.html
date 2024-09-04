@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // javaScript는 대소문자를 구분한다.
+      let data = "hello";
+      if (data === "Hello") {
+        console.log("data는 Hello입니다.");
+      } else {
+        console.log("data는 Hello가 아닙니다.");
+      }
+
+      // 동일한 식별자를 중복 선언할 수 없다.
+      //   let data = "world";
+
+      let Data = "world"; // data와 Data는 다르기 때문에 이것은 가능
+
+      // js는 세미콜론을 강제하지 않지만, prettier 때문에 자동 삽입..
+      let data1 = 10;
+      let result = data1 * 10;
+      console.log(result);
+    </script>
+  </body>
+</html>

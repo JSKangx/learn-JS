@@ -36,6 +36,7 @@ const switchTest = () => {
   } else {
     let season;
     month = parseInt(month);
+    // prettier-ignore
     switch (month) {
       case 12: case 1: case 2: season = "겨울"; break;
       case 3: case 4: case 5: season = "봄"; break;

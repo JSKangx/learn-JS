@@ -29,7 +29,9 @@ if (age < 30 && address === "서울") {
 if (age < 30) console.log("조건에 만족합니다.");
 else console.log("조건에 만족하지 않습니다.");
 
-// js는 다양한 타입의 데이터를 Truthy값, Falsy값으로 판단한다.
+// js는 다양한 타입의 데이터를 boolean값으로 타입 변환하여, Truthy값, Falsy값으로 판단한다.
 let data = 1;
 if (data) console.log("data is true");
 else console.log("data is false");
+
+// Falsy 값 : null, undefined, 0, 빈 문자열,

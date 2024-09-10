@@ -23,22 +23,60 @@
 */
 
 // 1-2 방법으로 작성.
+// const primeTest = () => {
+//   let no = parseInt(prompt("2 이상의 숫자를 입력하세요"));
+//   let message = "";
+//   if (isNaN(no) || no < 2) {
+//     message = "2 이상의 숫자를 입력하세요.";
+//   } else {
+//     for (let i = 2; i < no; i++) {
+//       if (no % i === 0) {
+//         message = `${no}는 소수가 아닙니다.`;
+//         break; // 만약 break가 없다면, 약수인 i가 나와도 계속 i를 no미만까지 증가시키면서 계산한다.
+//       } else {
+//         message = `${no}는 소수입니다.`;
+//       }
+//     }
+//   }
+//   //message 는 유저에게 출력하고자 하는 문자열을 저장한 변수
+//   document.querySelector("#result").innerHTML = message;
+// };
+
+//
+// const primeTest = () => {
+//   let no = parseInt(prompt("2 이상의 숫자를 입력하세요"));
+//   let message = "";
+//   if (isNaN(no) || no < 2) {
+//     message = "2 이상의 숫자를 입력하세요.";
+//   } else {
+//     message = `${no}는 소수입니다.`;
+//     for (let i = 2; i < no; i++) {
+//       if (no % i === 0) {
+//         message = `${no}는 소수가 아닙니다.`;
+//         break;
+//       }
+//     }
+//   }
+//   //message 는 유저에게 출력하고자 하는 문자열을 저장한 변수
+//   document.querySelector("#result").innerHTML = message;
+// };
+
+// for -> while 문으로 변경하여 작성해보자
 const primeTest = () => {
   let no = parseInt(prompt("2 이상의 숫자를 입력하세요"));
-  let message = "";
+  let message = `${no}는 소수입니다.`;
   if (isNaN(no) || no < 2) {
     message = "2 이상의 숫자를 입력하세요.";
   } else {
-    for (let i = 2; i < no; i++) {
+    let i = 2;
+    while (i < no) {
       if (no % i === 0) {
         message = `${no}는 소수가 아닙니다.`;
         break;
-      } else {
-        message = `${no}는 소수입니다.`;
       }
+      i++;
     }
   }
-
   //message 는 유저에게 출력하고자 하는 문자열을 저장한 변수
   document.querySelector("#result").innerHTML = message;
 };

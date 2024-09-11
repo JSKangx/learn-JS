@@ -23,16 +23,26 @@ function test2() {
 }
 
 function myFun2(arg) {
-  arg();
+  arg(); // 이 부분 때문에 인수에는 함수만 올 수 있게 됨.
   return test2;
 }
+
 let result = myFun2(test1);
+/*
+  myFun2(test1)은 다음과 같다.
+    function myFun2() {
+      test1();
+      return test2;
+    }
+  반환된 test2가 result에 저장됨.
+*/
 result();
+// result 함수를 실행하면 (1) myFun2(test1)이 실행되고, 반환된 test2도 실행된다.
 
 // 특정 함수 안에서만 사용되는 함수(로직)라면 외부에서 정식으로 선언할 필요가 없다.
 function myFun3(arg) {
   arg();
-  return () => console.log("test4");
+  return () => console.log("test4"); // 화살표 함수로 익명 함수 정의.
 }
-let result3 = myFun3(() => console.log("test3"));
+let result3 = myFun3(() => console.log("test3")); // 화살표 함수로 익명 함수 정의.
 result3();

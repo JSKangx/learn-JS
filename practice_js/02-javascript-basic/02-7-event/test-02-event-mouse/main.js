@@ -21,7 +21,10 @@ window.addEventListener("load", () => {
   let result = document.getElementById("result");
 
   area.addEventListener("mousemove", (e) => {
-    result.innerHTML = `offset(${e.offsetX}, ${e.offsetY}), page(${e.pageX}, ${e.pageY}))`;
+    result.innerHTML = `offset(${e.offsetX}, ${e.offsetY}), page(${e.pageX}, ${e.pageY})`;
+  });
+  area.addEventListener("mouseleave", () => {
+    result.innerHTML = "";
   });
 
   // enter, over의 차이점 : 버블링

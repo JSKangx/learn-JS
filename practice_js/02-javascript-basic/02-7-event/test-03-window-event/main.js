@@ -1,11 +1,17 @@
 "use strict";
 
+// script 태그가 이용하려는 node 보다 위에 있으므로 변수 선언만 하고, 아래 load 이벤트 실행시에 할당하기로 함.
 let resultNode;
 
 // 메시지를 받아 결과를 화면에 찍어주는 함수
-function printResult(msg) {
+// function printResult(msg) {
+//   resultNode.innerHTML = msg;
+// }
+
+const printResult = (msg) => {
   resultNode.innerHTML = msg;
-}
+};
+
 // 로딩 완료가 되면 node를 얻어서 resultNode에 할당
 addEventListener("load", () => {
   resultNode = document.getElementById("result");

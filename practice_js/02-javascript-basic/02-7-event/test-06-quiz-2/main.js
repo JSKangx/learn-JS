@@ -1,6 +1,6 @@
 /* 
   정규 표현식 : 어떤 문자열 데이터가 내가 원하는 패턴인지 검사하는 것.
-  let regExpPassword = /^(?-.*[a-zA-Z])(?=.*[0-9]).{6,16}$/
+  let regExpPassword = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,16}$/
   regExpPassword.test : 맞으면 true, 아니면 false를 반환.
 */
 
@@ -9,38 +9,48 @@
   - id, pw도 로그인 함수 안에서 사용해야 한다면 global로 선언.
 */
 
-// DOM node 획득
-let idNode = document.getElementById("id");
-let pwNode = document.getElementById("password");
-let idValidNode = document.getElementById("id-valid");
-let pwValidNode = document.getElementById("pw-valid");
+let isIdValid = true;
+let isPwValid = true;
+let id = "";
+let pw = "";
 
-// 유효성 검사한 결과를 화면에 띄우는 함수
-const printValidId = (msg) => {
-  idValidNode.innerHTML = msg;
-};
-const printValidPw = (msg) => {
-  pwValidNode.innerHTML = msg;
-};
-
-// 아이디가 유효한지 검사하는 조건문
-idNode.addEventListener("blur", (e) => {
-  if (!e.target.value) {
-    printValidId("아이디는 필수입력입니다.");
+const idCheck = function () {
+  let idNode = document.getElementById("id");
+  id = idNode.value;
+  let idCheckMsgNode = document.getElementById("idCheckMsg");
+  if (id === null || id.trim().length === 0) {
+    isIdValid = false;
+    idCheckMsgNode.innerHTML = "아이디는 필수입력입니다.";
   } else {
-    printValidId("");
+    isIdValid = true;
+    idCheckMsgNode.innerHTML = "";
   }
-});
+};
 
-// 비밀번호가 입력되었는지 검사하는 조건문
-pwNode.addEventListener("blur", (e) => {
+const pwCheck = function () {
+  let pwNode = document.getElementById("password");
+  pw = pwNode.value;
+  let pwCheckMsgNode = document.getElementById("pwCheckMsg");
   let regExpPassword = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,16}$/;
-  if (!e.target.value) {
-    printValidPw("비밀번호는 필수입력입니다.");
-  } else if (e.target.value && !regExpPassword.test()) {
-    printValidPw("비밀번호는 영문자, 숫자 조합, 6자 이상이어야 합니다.");
+  if (pw === null || pw.trim().length === 0) {
+    isPwValid = false;
+    pwCheckMsgNode.innerHTML = "비밀번호는 필수입력입니다.";
+  } else if (!regExpPassword.test(pw)) {
+    isPwValid = false;
+    pwCheckMsgNode.innerHTML = "비밀번호는 영문 + 숫자, 6자 이상으로 작성해주세요.";
   } else {
-    printValidPw("");
-    console.log(pwNode.value);
+    isPwValid = true;
+    pwCheckMsgNode.innerHTML = "";
   }
-});
+};
+
+const submit = function () {
+  idCheck();
+  pwCheck();
+  console.log("submit");
+  if (isIdValid && isPwValid) {
+    console.log("submit");
+    let resultNode = document.getElementById("result");
+    resultNode.innerHTML = `${id}와 ${pw}로 로그인합니다.`;
+  }
+};

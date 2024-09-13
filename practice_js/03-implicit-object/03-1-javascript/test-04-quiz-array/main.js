@@ -2,21 +2,42 @@
 
 let inputNode = document.getElementById("input");
 let resultNode = document.getElementById("result");
-let list = [];
+let wordArray = [];
 
-function add() {
-  list.push(inputNode.value);
-  console.log(list);
-  list.map((value) => {
-    resultNode = `<li>${value}</li>`;
+// 배열(wordArray)을 화면에 출력하는 함수
+const printArray = (array) => {
+  let wordList = ``;
+  array.forEach((value) => {
+    wordList += `<li>${value}</li>`;
   });
-}
+  resultNode.innerHTML = wordList;
+};
 
-function map() {}
+// 입력값을 빈배열에 추가하는 함수
+const add = () => {
+  wordArray.push(inputNode.value);
+  printArray(wordArray);
+  inputNode.value = "";
+};
 
-function filter() {}
+const map = () => {
+  let result = wordArray.map((value) => {
+    return value.toUpperCase();
+  });
+  printArray(result);
+};
 
-function sort() {}
+const filter = () => {
+  let result = wordArray.filter((value) => {
+    return value.length >= 5;
+  });
+  printArray(result);
+};
+
+const sort = () => {
+  let result = wordArray.sort();
+  printArray(result);
+};
 
 /*
   1. 배열의 데이터가 모든 함수에서 쓰이니까 전역변수로 빈 배열 선언

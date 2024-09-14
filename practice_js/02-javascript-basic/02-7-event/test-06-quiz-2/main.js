@@ -9,48 +9,60 @@
   - id, pw도 로그인 함수 안에서 사용해야 한다면 global로 선언.
 */
 
+// 전역에서 사용할 변수 선언
 let isIdValid = true;
 let isPwValid = true;
 let id = "";
 let pw = "";
 
+// DOM node 획득
+let idNode = document.getElementById("id");
+let pwNode = document.getElementById("password");
+let resultNode = document.getElementById("result");
+let btnNode = document.getElementById("loginBtn");
+
+// 아이디 유효성 검사하는 함수
 const idCheck = function () {
-  let idNode = document.getElementById("id");
-  id = idNode.value;
-  let idCheckMsgNode = document.getElementById("idCheckMsg");
-  if (id === null || id.trim().length === 0) {
+  let userID = idNode.value;
+  id = userID;
+  let errorMsg = document.getElementById("idErrorMsg");
+  if (userID === null || userID.trim().length === 0) {
+    errorMsg.innerHTML = "아이디는 필수 입력입니다.";
     isIdValid = false;
-    idCheckMsgNode.innerHTML = "아이디는 필수입력입니다.";
   } else {
+    errorMsg.innerHTML = "";
     isIdValid = true;
-    idCheckMsgNode.innerHTML = "";
   }
 };
+// 아이디 유효성 검사하는 함수를 이벤트의 콜백으로 전달.
+idNode.addEventListener("blur", idCheck);
 
+// 비밀번호 유효성 검사하는 함수
 const pwCheck = function () {
-  let pwNode = document.getElementById("password");
-  pw = pwNode.value;
-  let pwCheckMsgNode = document.getElementById("pwCheckMsg");
+  let userPW = pwNode.value;
+  pw = userPW;
+  let errorMsg = document.getElementById("pwErrorMsg");
   let regExpPassword = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,16}$/;
-  if (pw === null || pw.trim().length === 0) {
+
+  if (userPW === null || userPW.trim().length === 0) {
+    errorMsg.innerHTML = "비밀번호는 필수 입력입니다.";
     isPwValid = false;
-    pwCheckMsgNode.innerHTML = "비밀번호는 필수입력입니다.";
-  } else if (!regExpPassword.test(pw)) {
+  } else if (!regExpPassword.test(userPW)) {
     isPwValid = false;
-    pwCheckMsgNode.innerHTML = "비밀번호는 영문 + 숫자, 6자 이상으로 작성해주세요.";
+    errorMsg.innerHTML = "비밀번호는 문자+숫자 조합으로, 6자 이상입니다.";
   } else {
     isPwValid = true;
-    pwCheckMsgNode.innerHTML = "";
+    errorMsg.innerHTML = "";
   }
 };
+// 비밀번호 유효성 검사 함수를 이벤트의 콜백으로 전달
+pwNode.addEventListener("blur", pwCheck);
 
-const submit = function () {
+// 로그인시 id, pw 유효성 검사를 실행하고 id, pw를 화면에 출력
+btnNode.addEventListener("click", () => {
   idCheck();
   pwCheck();
-  console.log("submit");
   if (isIdValid && isPwValid) {
-    console.log("submit");
-    let resultNode = document.getElementById("result");
-    resultNode.innerHTML = `${id}와 ${pw}로 로그인합니다.`;
+    resultNode.innerHTML = `${id}, ${pw}로 로그인을 시도합니다.`;
   }
-};
+});

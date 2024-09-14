@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      #idCheckMsg,
-      #pwCheckMsg {
+      #idErrorMsg,
+      #pwErrorMsg {
         color: red;
       }
     </style>
   </head>
   <body>
     <h3>로그인</h3>
-    ID : <input type="text" id="id" onblur="idCheck()" /> <br />
-    <div id="idCheckMsg"></div>
-    PW : <input type="password" id="password" onblur="pwCheck()" /> <br />
-    <div id="pwCheckMsg"></div>
-    <button onclick="submit()">로그인</button>
+    ID : <input type="text" id="id" /> <br />
+    <div id="idErrorMsg"></div>
+    PW : <input type="password" id="password" /> <br />
+    <div id="pwErrorMsg"></div>
+    <button id="loginBtn">로그인</button>
     <div id="result"></div>
     <script src="main.js"></script>
   </body>

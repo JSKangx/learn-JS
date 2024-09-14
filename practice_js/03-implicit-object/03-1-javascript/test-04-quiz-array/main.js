@@ -1,42 +1,47 @@
 "use strict";
 
-let inputNode = document.getElementById("input");
-let resultNode = document.getElementById("result");
+// 모든 함수에서 사용할 빈 배열을 global로 선언
 let wordArray = [];
+let inputNode = document.getElementById("input");
 
-// 배열(wordArray)을 화면에 출력하는 함수
-const printArray = (array) => {
-  let wordList = ``;
+// 매개변수로 입력한 배열을 화면에 프린트 해주는 함수
+const printWord = function (array) {
+  let resultNode = document.getElementById("result");
+  let result = ``;
   array.forEach((value) => {
-    wordList += `<li>${value}</li>`;
+    result += `<li>${value}</li>`;
   });
-  resultNode.innerHTML = wordList;
-};
-
-// 입력값을 빈배열에 추가하는 함수
-const add = () => {
-  wordArray.push(inputNode.value);
-  printArray(wordArray);
+  resultNode.innerHTML = result;
   inputNode.value = "";
 };
 
-const map = () => {
-  let result = wordArray.map((value) => {
+// 입력한 문자열을 임의로 만든 배열 wordArray에 추가
+const addWord = function () {
+  let word = inputNode.value;
+  wordArray.push(word);
+  printWord(wordArray);
+};
+
+// 배열의 원소를 대문자로 변경하여 새 배열로 반환
+const map = function () {
+  let upperCase = wordArray.map((value) => {
     return value.toUpperCase();
   });
-  printArray(result);
+  printWord(upperCase);
 };
 
-const filter = () => {
-  let result = wordArray.filter((value) => {
-    return value.length >= 5;
+// 조건에 맞는 원소만 골라 새 배열로 반환, 새 배열을 프린트
+const filter = function () {
+  let filteredArr = wordArray.filter((value) => {
+    return value.length > 5;
   });
-  printArray(result);
+  printWord(filteredArr);
 };
 
-const sort = () => {
-  let result = wordArray.sort();
-  printArray(result);
+// 원본배열 wordArray를 오름차순으로 정렬.
+const sort = function () {
+  wordArray.sort();
+  printWord(wordArray);
 };
 
 /*

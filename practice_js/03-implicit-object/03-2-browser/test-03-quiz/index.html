@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function openAddressPage() {
+        window.open(
+          "address.html",
+          "_blank",
+          "left=100, top=100, width=350, height=200"
+        );
+      }
+      function printResult(address) {
+        let resultNode = document.getElementById("result");
+        resultNode.innerHTML = address;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>주소를 입력하세요.</h1>
+    <button onclick="openAddressPage()">주소 입력</button>
+    <div id="result"></div>
+  </body>
+</html>

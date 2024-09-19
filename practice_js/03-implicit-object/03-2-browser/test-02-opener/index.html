@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // 부모 창에서 선언된 데이터를 child 창에서 접근해보자.
+      var parentData = 10; // var 키워드로 선언한 변수는 child 창에서 접근 가능.
+      let parentData2 = 20; // let 키워드로 선언한 변수는 child 창에서 접근 불가능.
+      function parentFunc() {
+        console.log("parent Function is called.");
+      }
+      // 자식 창을 여는 함수
+      function goChild() {
+        window.open(
+          "child.html",
+          "_blank",
+          "left=100, top=100, width=300, height=300"
+        );
+      }
+
+      function getChildData() {
+        // child 창에서 선언한 변수, 함수에 접근하여 이 창에서 log 를 찍음.
+        console.log(child.childData1);
+        // child 창에서 childFunc라는 함수를 실행.
+        child.childFunc();
+      }
+    </script>
+  </head>
+  <body>
+    <h1>I am a Parent Page!</h1>
+    <button onclick="goChild()">go to Child Page</button>
+    <button onclick="getChildData()">get Child Data</button>
+  </body>
+</html>

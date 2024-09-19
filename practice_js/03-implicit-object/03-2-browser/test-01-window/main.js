@@ -26,7 +26,7 @@ let childWindow;
 // (3) 새로운 창의 옵션 지정
 function myOpen3() {
   // window.open을 통해 뜬 창을 변수에 할당.
-  childWindow = window.open("http://www.google.com", "_blank", "left=100, top=100, width=300, height=300");
+  childWindow = window.open("", "_blank", "left=100, top=100, width=300, height=300");
   if (childWindow === null) {
     alert("팝업이 차단되었습니다. 해제해 주세요.");
   }
@@ -34,6 +34,7 @@ function myOpen3() {
 
 // 열린 창을 닫아보자.
 function myClose() {
+  //
   childWindow.close();
 }
 

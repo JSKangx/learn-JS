@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>one</div>
+    <div>two</div>
+    <div id="a1">three</div>
+    <div class="b1">four</div>
+    <div id="a2">
+      <div>five</div>
+      <div class="b1">six</div>
+    </div>
+    <div>
+      <input type="text" name="address" />
+      <p id="result"></p>
+    </div>
+    <p><button onclick="idTest()">id test</button></p>
+
+    <script>
+      function idTest() {
+        // id 속성값으로 노드 획득
+        let selectNode = document.getElementById("a1");
+        selectNode.style.backgroundColor = "red";
+      }
+    </script>
+    <p><button onclick="tagNameTest()">tag name test</button></p>
+    <script>
+      function tagNameTest() {
+        // tag name으로 노드 획득
+        let selectNode = document.getElementsByTagName("div");
+        // getElementsByTagName는 해당하는 노드를 모두 배열로 반환하기에 .style 적용할 수 없다.
+        // selectNode.style.backgroundColor = "red";
+        // 선택된 노드 모두에 대하여 스타일을 적용하려면 반복문 사용.
+        for (let i = 0; i < selectNode.length; i++) {
+          selectNode[i].style.backgroundColor = "red";
+        }
+      }
+    </script>
+    <p><button onclick="classTest()">class test</button></p>
+    <script>
+      function classTest() {
+        let selectNode = document.getElementsByClassName("b1");
+        for (let i = 0; i < selectNode.length; i++) {
+          selectNode[i].style.backgroundColor = "red";
+        }
+      }
+    </script>
+    <p><button onclick="nameTest()">name test</button></p>
+    <script>
+      function nameTest() {
+        // name 으로 노드 획득하고, 유저가 입력한 데이터를 추출, result에 출력해보자.
+        let addressNode = document.getElementsByName("address");
+        let resultNode = document.getElementById("result");
+        resultNode.innerHTML = `tag: '${addressNode[0].tagName}', 입력값: '${addressNode[0].value}'`;
+      }
+    </script>
+    <p><button onclick="selectorTest()">query selector test</button></p>
+    <script>
+      function selectorTest() {
+        // #a2 하위의 div를 모두 선택
+        let selectNode = document.querySelectorAll("#a2 div");
+        for (let i = 0; i < selectNode.length; i++) {
+          selectNode[i].style.backgroundColor = "red";
+        }
+      }
+    </script>
+  </body>
+</html>

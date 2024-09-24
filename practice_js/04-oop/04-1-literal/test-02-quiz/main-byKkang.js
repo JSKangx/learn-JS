@@ -14,8 +14,8 @@
       이모지 종류
       이모지 카운트
       이모지 클릭 멤버
-        (함수) 이모지 클릭 멤버 추가 함수 
-    (함수) 이모지 카운트 추가 함수
+        (함수) 이모지 카운트, 클릭 멤버 추가 함수 
+    (함수) 이모지 추가 함수
 */
 
 let message = {
@@ -32,12 +32,14 @@ let message = {
       id: "thumbs_up",
       count: 3,
       members: ["jska2w3", "donghyanoh", "idoyeong5696"],
+      // 이모지 객체에 대한 데이터만 다루는 메서드이기에 이모지 객체 안에 정의함.
       addCount: function (id) {
         this.count++;
         this.members.push(id);
       },
     },
   ],
+  // 이 메서드는 메시지 전체에 동작하는 기능이기 때문에 여기다 정의함.
   addEmoji: function (emojiId, memberId) {
     // emoji 배열의 모든 원소에 대해,
     if (this.emoji.every((item) => item.id !== emojiId)) {

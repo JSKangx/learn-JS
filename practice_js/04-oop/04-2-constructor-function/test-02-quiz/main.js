@@ -11,25 +11,26 @@
       - 이모지 클릭 멤버 추가 메서드 
 */
 
-// 멤버 객체 생성자 함수
+// 멤버 객체 생성자 함수 정의
 function Member(id, nickname, profileImg) {
   this.id = id;
   this.nickname = nickname;
-  this.profilImg = profileImg;
+  this.profileImg = profileImg;
 }
 
-// 이모지 객체 생성자 함수 (emojis 배열 안에 있는 하나의 객체를 생성함)
+// 이모지 객체 생성자 함수 정의
 function Emoji(emojiId) {
   this.id = emojiId;
   this.count = 0;
   this.members = [];
-  // emoji와 관련된 데이터만 조작하는 메서드이기에 emoji 객체 안에 정의함
+  // 이모지 객체의 데이터만 관리하는 함수이기에 이 객체 안에 정의함
   this.addCount = function (memberId) {
     this.count++;
     this.members.push(memberId);
   };
 }
 
+// 메시지 전체에 대한 관리
 function Message(msg, member) {
   this.msgId = ++msgId;
   this.msg = msg;
@@ -37,48 +38,51 @@ function Message(msg, member) {
   this.member = member;
   this.emojis = [];
   this.addEmoji = function (emojiId, memberId) {
-    // message 객체가 갖고 있는 이모지 중에 같은 이모지가 없다면,
-    if (this.emojis.every((emoji) => emoji.id !== emojiId)) {
-      // 새 이모지 객체를 생성하고,
-      let emoji = new Emoji(emojiId);
-      // 이모지 카운트를 증가시킨 다음에
-      emoji.addCount(memberId);
-      // 그 이모지 객체를 message 객체가 가진 emojis 배열에 push
-      this.emojis.push(emoji);
+    if (this.emojis.every((item) => item.id !== emojiId)) {
+      let newEmoji = new Emoji(emojiId);
+      newEmoji.addCount(memberId);
+      this.emojis.push(newEmoji);
     } else {
-      let index = this.emojis.findIndex((emoji) => emoji.id === emojiId);
+      let index = this.emojis.findIndex((item) => item.id == emojiId);
       this.emojis[index].addCount(memberId);
     }
   };
 }
 
-// test
-// 모든 메시지를 담은 초기 배열을 선언
-let messages = [];
-// 생성된 message 객체를 구별하기 위해 순번을 부여함.
-// 초기값은 0. message 객체가 생성될 때마다 1씩 증가하는 로직을 생성자 함수 안에 기록.
-let msgId = 0;
+// 모든 메시지를 담을 수 있는 배열 선언
+let messages = []; // 초기값
 
-// 신규 메시지 발생 1
-let member1 = new Member("kim", "김길동", "kim.png");
-let message1 = new Message("hihi", member1);
+// 메시지를 구별할 수 있는 id 선언
+let msgId = 0; // 초기값
+
+// (1) 새 메시지가 생성되는 테스트
+// 새 멤버 객체 생성
+let member1 = new Member("Alberto", "A", "alberto.png");
+// 새 메시지 객체 생성
+let message1 = new Message("Hi, I'm Alberto.", member1);
 messages.push(message1);
-console.dir(messages);
+console.log(messages);
 
-// 신규 메시지 발생 2
-let member2 = new Member("Lee", "이길동", "lee.png");
-let message2 = new Message("응 하이하이", member2);
+// (2) 새 메시지가 또 생성되는 테스트
+// 새 멤버 객체 생성
+let member2 = new Member("Betty", "B", "betty.png");
+// 베티의 메시지
+let message2 = new Message("Hi, Alberto! Nice to meet you!", member2);
 messages.push(message2);
-console.dir(messages);
+console.log(messages);
 
-// 이모지 추가 1
-message1.addEmoji("hello", "이길동");
+// (3) 1번 메시지에 이모지가 추가되는 테스트
+message1.addEmoji("hi", member2.id);
+console.log(messages);
 
-// 이모지 추가 2
-message2.addEmoji("hello", "김길동");
+// (4) 1번 메시지에 다른 이모지가 추가되는 테스트
+message1.addEmoji("wow", member1.id);
+console.log(messages);
 
-// 같은 메시지에 다른 이모지 추가
-message1.addEmoji("bye", "이길동");
+// (5) 1번 메시지에 이미 있는 이모지가 추가되는 테스트
+message1.addEmoji("hi", member1.id);
+console.log(messages);
 
-// 같은 메시지에 같은 이모지 추가
-message1.addEmoji("hello", "박길동");
+// (6) 2번 메시지에 이모지가 새로 추가되는 세트스
+message2.addEmoji("nice", member1.id);
+console.log(messages);

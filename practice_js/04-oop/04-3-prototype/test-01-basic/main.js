@@ -44,4 +44,4 @@ console.dir(user1);
 // 객체의 멤버명과 프로토타입의 멤버명이 동일한 경우엔 어떤 멤버가 적용될까?
 // 객체의 멤버가 우선 적용된다. 상속이 안 된다는 말.
 // 만약 이름이 동일하지만, 프로토타입의 멤버를 참조하고 싶다면?
-console.log(user1.__proto__.age, user1.age); // 30
+console.log(user1.__proto__.age, user1.age); // 30, 40

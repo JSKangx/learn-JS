@@ -3,12 +3,23 @@
 /*
   0. 퍼블리셔가 시안 마크업을 만들어서 줬다.
   1. 내가 동적으로 마크업을 만들어 내야하는 부분은 어디인가?
-    - main 안에 있는 div다. 채팅이 올라올 때마다 js로 div를 만들어줘야 하니까.
+    - 채팅글 하나에 해당하는 main 안에 있는 div다. 채팅이 올라올 때마다 js로 div를 만들어줘야 하니까.
     - 그래서 div를 지웠다. 동적으로 생성하기 위해서.
   2. 채팅글은 같은 구성이지만 값이 다 다른 것이다. 
     - 그래서 채팅글 객체를 생성하는 생성자 함수를 만들자.
+    - 지난 시간에 미리 만들어 본 생성자 함수를 사용하겠다.
   3. 작업순서
-    (1) form에서 유저 입력 받기
+    (1) 필요한 DOM 노드 객체 접근, 전역 변수에 할당
+    (2) form 제출 함수 정의
+      - 유저 입력 데이터 추출
+      - 유저 입력 데이터 유효성 검사
+        - id, nickname, message 중 하나라도 입력하지 않으면 경고창
+        - 입력하면 폼 제출 이벤트 실행
+    (3) printMessage 함수 정의
+    (4) emojiClick 함수 정의
+      - emoji 객체의 데이터를 관리
+    (5) printEmoji 함수 정의
+      - emoji를 메시지 버블에 출력
 */
 
 function Member(id, nickname, profileImg) {
@@ -30,6 +41,7 @@ function Emoji(id) {
 function Message(msg, member) {
   this.msgId = ++msgId;
   this.msg = msg;
+  // member는 해당 메시지를 입력한 유저의 정보를 담고 있는 객체다.
   this.member = member;
   this.date = new Date().toLocaleString();
   this.emojis = [];
@@ -69,8 +81,9 @@ let chatMainNode = document.getElementById("chat-main");
 
 // 화면에 출력하는 함수는 길것이 예상되니 따로 작성
 // 퍼블리셔가 준 html 파일을 보면서 그대로 출력되도록 코드 작성하면 됨
+// printMessage 함수는 폼 제출 함수 마지막에 호출된다.
 function printMessage(message) {
-  // 노드 트리 구조에서 가장 하위인 dropdown 메뉴 준비
+  // 노드 트리 구조에서 가장 하위인 dropdown 메뉴 만들기
   let menuImageNode = document.createElement("img");
   menuImageNode.setAttribute("src", "images/menu.jpg");
 
@@ -161,6 +174,12 @@ function printMessage(message) {
 }
 
 // msger-send-btn에 입력된 이벤트 클릭 함수인 send를 정의
+/* 
+  폼이 제출되면 
+  (1) 메시지 객체가 생성되고, 
+  (2) 생성된 객체를 messages 배열에 삽입하고,
+  (3) 생성된 객체를 화면에 출력하는 함수를 실행한다.
+*/
 function send(e) {
   // 폼 제출시 새로고침 방지
   e.preventDefault();
@@ -195,10 +214,6 @@ function send(e) {
     // 메시지를 화면에 출력
     printMessage(message);
   }
-
-  // 화면에 동적 노드 만들어서 출력
-
-  //
 }
 
 //
@@ -225,15 +240,16 @@ function printEmoji(message) {
     // 있든 없든 실행
     let emojisNode = document.createElement("div");
     emojisNode.setAttribute("class", "emojis");
+    // emojis 배열에 있는 emoji의 개수만큼 아래 코드 실행
     emojis.forEach((emoji) => {
       let img = document.createElement("img");
       img.setAttribute("class", "emoji dropbtn");
       img.setAttribute("src", `images/${emoji.emojiId}.jpg`);
+
       let span = document.createElement("span");
       // members 배열의 원소를 ,로 구분해서 문자열로 만듬
       let nicknameText = emoji.members.join(", ");
       span.appendChild(document.createTextNode(nicknameText));
-
       // span을 div.dropdown-content에 넣자.
       let dropdownContent = document.createElement("div");
       dropdownContent.setAttribute("class", "dropdown-content");
@@ -254,14 +270,14 @@ function printEmoji(message) {
       emojisNode.appendChild(dropdown);
       emojisNode.appendChild(span2);
     });
-    // 이렇게 만든 애가 버블에 붙도록 삽입.
+    // 이렇게 만든 애를 messageBubble의 마지막 자식 요소로 삽입.
     messageBubble.appendChild(emojisNode);
   }
 }
 
 // 이모지 추가 이벤트 처리하는 함수
 function emojiClick(msgId, emojiId) {
-  // 이모지를 동적으로 메시지에 출력하는 기능.
+  // 이모지 객체의 데이터를 관리하고, 동적으로 메시지에 추가하는 기능
   /*
     서버와 연동된다면 이모지 출력의 유저 id는 고정되지만,
     지금은 로컬 테스트이기에 이모지 추가 유저 id를 prompt로 받아들인다.

@@ -40,4 +40,4 @@ Object.defineProperty(obj, "age", { writable: true });
 Object.defineProperty(obj, "age", { writable: false, configurable: false });
 // Object.defineProperty(obj, "age", { writable: true }); // Uncaught TypeError: Cannot redefine property: age
 // 다시 configurable: true로 바꿀 수 없다.
-Object.defineProperty(obj, "age", { configurable: true });
+// Object.defineProperty(obj, "age", { configurable: true });

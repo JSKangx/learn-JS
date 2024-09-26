@@ -163,3 +163,19 @@ function send(e) {
     printMessage(message);
   }
 }
+
+function printEmoji() {}
+
+// (1) 특정 메시지 객체에 이모지를 추가하는 함수 (2) printEmoji 함수 호출
+function emojiClick(msgId, emojiId) {
+  let memberNickname = prompt("당신의 닉네임을 입력하세요.");
+  if (memberNickname.trim() === null || memberNickname.trim().length === 0) {
+    alert("닉네임을 입력하세요.");
+  } else {
+    //
+    let index = messages.findIndex((item) => item.msgid == msgId);
+    messages[index].addCount(emojiId, memberNickname);
+
+    printEmoji(messages[index]);
+  }
+}

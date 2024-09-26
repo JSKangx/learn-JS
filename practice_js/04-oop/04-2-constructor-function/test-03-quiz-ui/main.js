@@ -227,19 +227,17 @@ function printEmoji(message) {
     // 자기가 속해 있는 노드를 얻어야 한다.
     let messageBubble = document.querySelector(`#msgId-${message.msgId} .msg-bubble`);
     // 이모지가 추가된 것이 있을 수도 있고 없을 수도 있다.
-    /* 
-      만약 있다면 마크업에 div.emojis가 이미 생성되었기에 내부만 만들면 됨.
-      없다면, div.emojis를 생성해야 함.
-    */
-    let emojiNode = messageBubble.querySelector(".emojis");
-    // emojiNode 가 있다면 (기존에 이모지 추가된 것이 있는 상황)
-    if (emojiNode) {
-      // 새로 찍어내기 위해 그냥 전체 리셋
-      messageBubble.removeChild(emojiNode);
+    // emojis.length > 0인 상황이니까, 기존에 추가된 이모지가 있겠지
+    let prevEmojiNode = messageBubble.querySelector(".emojis");
+    // 즉, prevEmojiNode가 이미 생성되어 있다는 것.
+    if (prevEmojiNode) {
+      // 새로 찍어내기 위해 그냥 div.emojis를 삭제
+      messageBubble.removeChild(prevEmojiNode);
     }
-    // 있든 없든 실행
+    // div.emojis를 새롭게 만든다.
     let emojisNode = document.createElement("div");
     emojisNode.setAttribute("class", "emojis");
+    // emojis 배열에는 이 메시지에 추가된 이모지
     // emojis 배열에 있는 emoji의 개수만큼 아래 코드 실행
     emojis.forEach((emoji) => {
       let img = document.createElement("img");

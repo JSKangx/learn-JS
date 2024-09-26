@@ -164,7 +164,46 @@ function send(e) {
   }
 }
 
-function printEmoji() {}
+function printEmoji(message) {
+  let emojis = message.emojis;
+  if (emojis.length > 0) {
+    // 인수로 전달받은 메시지의 메시지 버블을 선택하고, 그 안에 있는 div.emojis를 지우고, 새롭게 출력하기 위해 DOM 노드 객체 획득
+    let messageBubble = document.querySelector(`#msgId-${message.msgId} .msg-bubble`);
+    let prevEmojisNode = messageBubble.querySelector(".emojis");
+    if (prevEmojisNode) {
+      messageBubble.removeChild(prevEmojisNode);
+    }
+    // 이전 emojisNode를 지웠으니, 새로운 emojisNode를 생성
+    let newEmojisNode = document.createElement("div");
+    newEmojisNode.setAttribute("class", "emojis");
+    // 이모지를 담을 수 있는 마크업을 생성했으니, 이모지 배열에 담겨 있는 이모지 객체의 수만큼 drowdown과 emoji-count 마크업을 만들어야 함.
+    emojis.forEach((emoji) => {
+      let img = document.createElement("img");
+      img.setAttribute("class", "emoji dropbtn");
+      img.setAttribute("src", `images/${emoji.id}.jpg`);
+      let span = document.createElement("span");
+      let clickMembers = emoji.members.join(", ");
+      span.appendChild(document.createTextNode(clickMembers));
+      let dropdownContent = document.createElement("div");
+      dropdownContent.setAttribute("class", "dropdown-content");
+      dropdownContent.appendChild(span);
+
+      let dropdown = document.createElement("div");
+      dropdown.setAttribute("class", "dropdown");
+      dropdown.appendChild(img);
+      dropdown.appendChild(dropdownContent);
+
+      let span2 = document.createElement("span");
+      span2.setAttribute("class", "emoji-count");
+      let clickCount = emoji.count;
+      span2.appendChild(document.createTextNode(clickCount));
+
+      newEmojisNode.appendChild(dropdown);
+      newEmojisNode.appendChild(span2);
+    });
+    messageBubble.appendChild(newEmojisNode);
+  }
+}
 
 // (1) 특정 메시지 객체에 이모지를 추가하는 함수 (2) printEmoji 함수 호출
 function emojiClick(msgId, emojiId) {
@@ -172,9 +211,8 @@ function emojiClick(msgId, emojiId) {
   if (memberNickname.trim() === null || memberNickname.trim().length === 0) {
     alert("닉네임을 입력하세요.");
   } else {
-    //
-    let index = messages.findIndex((item) => item.msgid == msgId);
-    messages[index].addCount(emojiId, memberNickname);
+    let index = messages.findIndex((msg) => msg.msgId == msgId);
+    messages[index].addEmoji(emojiId, memberNickname);
 
     printEmoji(messages[index]);
   }

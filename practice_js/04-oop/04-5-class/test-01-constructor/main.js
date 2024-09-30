@@ -15,16 +15,19 @@ class User {
   }
 }
 let obj = new User();
+// constructor를 개발자가 임의로 정해주지 않았기 때문에, obj의 멤버로 name = "Alberto"가 생성되었다.
 obj.sayHello(); // Hello, Alberto!
 
 // constructor를 명시적으로 선언해보자
 class User3 {
+  // 아랫줄은 '클래스 필드 선언'이다. 이 필드는 객체가 생성될 때 인스턴스의 name 프로퍼티를 생성한다. 하지만, constructor에 의해 생성자의 파라미터로 name이 다시 주어지기 때문에 주어진 파라미터로 덮어쓰여진다.
   name = "Betty";
   constructor(name) {
     // name - 생성자가 호출되는 시점에서만 유지되는 로컬 변수
     // this.name = 생성되는 객체의 멤버
     this.name = name;
   }
+  // 함수는 생성자 필드에 정의하지 않더라도 prototype에 자동 저장이 되기 때문에 User3로 생성되는 객체에서 접근이 가능하다.
   sayHello() {
     console.log(`Hello, ${this.name}!`);
   }

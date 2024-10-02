@@ -10,7 +10,7 @@ let result = myFun(); // 만약 이 줄이 오래 걸리는 함수라면 아랫�
 console.log(`step2 + ${result}`);
 /*
   step1
-  work done 
+  work done
   step2 + 10
 */
 

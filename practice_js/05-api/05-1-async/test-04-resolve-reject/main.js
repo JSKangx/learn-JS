@@ -21,21 +21,20 @@ try {
 console.log("3");
 
 // (1) promise : 비동기 실행 후 결과 전달할 필요가 없는 경우. 데이터 발행을 안 한다.
-/*
-  function myFun1() {
-    return new Promise(() => {
-      let interval = setInterval(() => {
-        console.log("in promise");
-      }, 1000);
-      setTimeout(() => {
-        clearInterval(interval);
-      }, 3000);
-    });
-  }
-  console.log("step1");
-  myFun1();
-  console.log("step2");
-*/
+
+// function myFun1() {
+//   return new Promise(() => {
+//     let interval = setInterval(() => {
+//       console.log("in promise");
+//     }, 1000);
+//     setTimeout(() => {
+//       clearInterval(interval);
+//     }, 3000);
+//   });
+// }
+// console.log("step1");
+// myFun1();
+// console.log("step2");
 
 // (2) promise : 비동기 실행 후 결과 전달해야 하는 경우. 데이터 발행
 // function myFun2() {

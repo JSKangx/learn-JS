@@ -14,6 +14,7 @@ function sum() {
   let xhr = new XMLHttpRequest();
   // 요청 정보 설정(초기화)
   // xhr.open(request method, url, 비동기(T)/동기(F))
+  // /sum/은 API 엔드포인트 경로다. 서버에서 "sum"이라는 작업을 처리할 수 있는 엔드포인트를 의미함.
   xhr.open("get", `http://localhost:3000/sum/${numNode.value}`, true);
   // 서버에 요청
   xhr.send();

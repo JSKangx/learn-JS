@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>서울시 권역별 미세먼지 현황</h3>
+    <button id="button">실시간 정보 업데이트</button>
+    <table>
+      <thead>
+        <tr>
+          <!-- 데이터는 많이 넘어오지만, 3개의 데이터만 받아보자.
+           (지역구, 미세먼지 수치, 미세먼지 등급) -->
+          <th>지역</th>
+          <th>미세먼지 수치</th>
+          <th>상태</th>
+        </tr>
+      </thead>
+      <tbody id="result"></tbody>
+    </table>
+    <script src="main.js"></script>
+  </body>
+</html>

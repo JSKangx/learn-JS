@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 유저에게 숫자를 입력받는 input -->
+    num : <input type="text" id="num" />
+    <!-- 1부터 유저가 입력한 데이터까지 더하는 함수.
+     우리가 작성할 수도 있지만, 이 업무는 백엔드에서 진행한다고 가정. 
+     그래서 우리는 ajax로 백엔드에 요청하는 로직을 짤 예정.-->
+    <button onclick="sum()">send</button>
+    <div>
+      <h3>Server에서 온 Data : <span id="result"></span></h3>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -13,6 +13,7 @@ function axios_default() {
 
   // default에 설정된 값을 그대로 이용하기에 많은 정보를 안 써줘도 된다.
   axios
+    // baseURL 뒤에 붙는 url
     .post("post_test", {
       name: "Alberto",
       age: 20,
@@ -38,6 +39,7 @@ function axios_create() {
       printResult(response.data.msg);
     });
 }
+
 // url 뒤에(header 정보) 데이터를 추가해서 서버로 전송하는 방식
 // url은 필수 입력 정보이므로 [get, post, put, delete, patch] 등에 모두 가능한 데이터 전송 방식
 function axios_params() {
@@ -54,27 +56,26 @@ function axios_params() {
     printResult(response.data.msg);
   });
 }
-//
+// post, put, patch에서는 body stream으로 데이터를 전달하는 것이 좋다.
 function axios_transform() {
   axios({
     method: "post",
     url: "http://localhost:3000/post_test",
     // data 정보는 body stream을 통해 전송되기에 url에는 표시되지 않는다.
-    // body stream을 가지고 있는 post, put, patch에서만 사용 가능.
     data: {
       name: "Betty",
       age: 30,
     },
     // 요청시 실행되어야 할 함수가 있다면 이 배열의 원소로 담아주면 된다.
     transformRequest: [
-      // 1번 매개변수(data) : 서버에 전송해야 할 body stream의 정보를 이 함수로 조작 가능
-      // 2번 매개변수(headers) : 서버에 요청하는 header 정보를 전송시 이 함수로 조작 가능
+      // 1번 매개변수(data) : 서버에 전송해야 할 body stream의 정보
+      // 2번 매개변수(headers) : 서버에 요청하는 header 정보
       function (data, headers) {
         console.log(data);
         console.log(headers);
         // 아래처럼 임의의 header 정보를 추가할 수 있다.
         headers["Content-Type"] = "application/json";
-        // 전송되는 기존 데이터를 쭉 나열한 후, 'key: 1'이라는 데이터를 추가하여 서버로 전송.
+        // 전송되는 기존 데이터에 'key: 1'이라는 데이터를 추가하여 서버로 전송.
         let newData = { ...data, key: 1 };
         // return 시키는 값 : 서버로 최종 전송되는 값
         return JSON.stringify(newData);

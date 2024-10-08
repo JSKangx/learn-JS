@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="chat.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="msger">
+      <main class="msger-chat" id="chat-main"></main>
+      <!-- 로그인 폼과 메시지 입력 폼을 스위치하며 띄우기 위해 폼을 2개로 나눔 -->
+      <form class="msger-inputarea" id="nicknameForm">
+        <input
+          type="text"
+          class="msger-input-nickname"
+          placeholder="id"
+          id="idInput"
+        />
+        <input
+          type="text"
+          class="msger-input-nickname"
+          placeholder="nickname"
+          id="nicknameInput"
+        />
+        <button class="msger-send-btn" onclick="connect(event)">connect</button>
+      </form>
+
+      <form class="msger-inputarea" id="msgForm" style="display: none">
+        <input
+          type="text"
+          class="msger-input-msg"
+          placeholder="Enter your message..."
+          id="msgInput"
+        />
+        <button class="msger-send-btn" onclick="send(event)">Send</button>
+      </form>
+    </section>
+    <script src="main.js"></script>
+  </body>
+</html>

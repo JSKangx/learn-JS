@@ -35,9 +35,7 @@ function connection() {
     // (4) 웹소켓 객체 생성 = 서버 연결
     webSocket = new WebSocket("ws://localhost:3000");
     webSocket.onmessage = function (event) {
-      //
       let data = JSON.parse(event.data);
-      console.log(data);
       let resultNode = document.getElementById("results");
       let liNode = document.createElement("li");
 
@@ -59,7 +57,7 @@ function connection() {
 */
 function send() {
   let msgNode = document.getElementById("msg");
-  let msg = msgNode.value;
+  let msg = msgNode.value.trim();
   if (msg) {
     webSocket.send(
       JSON.stringify({

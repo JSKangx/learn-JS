@@ -1,27 +1,33 @@
 "use strict";
 
-function Member(id, nickname, profileImg) {
-  this.id = id;
-  this.nickname = nickname;
-  this.profileImg = profileImg;
+class Member {
+  constructor(id, nickname, profileImg) {
+    this.id = id;
+    this.nickname = nickname;
+    this.profileImg = profileImg;
+  }
 }
 
-function Emoji(id) {
-  this.emojiId = id;
-  this.count = 0;
-  this.members = [];
-  this.add = function (memberId) {
+class Emoji {
+  constructor(id) {
+    this.emojiId = id;
+    this.count = 0;
+    this.members = [];
+  }
+  add(memberId) {
     this.count++;
     this.members.push(memberId);
-  };
+  }
 }
 
-function Message(msg, member) {
-  this.msg = msg;
-  this.member = member;
-  this.date = new Date().toLocaleString();
-  this.emojis = [];
-  this.addEmoji = function (emojiId, memberId) {
+class Message {
+  constructor(msg, member) {
+    this.msg = msg;
+    this.member = member;
+    this.date = new Date().toLocaleString();
+    this.emojis = [];
+  }
+  addEmoji(emojiId, memberId) {
     if (this.emojis.every((item) => item.emojiId !== emojiId)) {
       let emoji = new Emoji(emojiId);
       emoji.add(memberId);
@@ -30,15 +36,15 @@ function Message(msg, member) {
       let index = this.emojis.findIndex((item) => item.emojiId === emojiId);
       this.emojis[index].add(memberId);
     }
-  };
+  }
 }
 
+// 메시지가 담긴 배열을 서버로 옮기지 않은 것은, 간단하게 구현만 할 것이기에, 굳이 서버에 메시지 배열을 저장하지 않은 것이다.
 let messages = [];
 
 /*
   실제 채팅 기능을 구현하기 위해 각각의 메시지를 구분하기 위한 id를 만들어야 한다.
-  이 id값은 클라이언트가 유지하는 게 아니라 서버에서 유지해야 하는 데이터이기에 
-  다른방식으로 메시지에 id를 부여할 것.
+  근데 이 id값은 클라이언트가 유지하는 게 아니라 서버에서 유지해야 하는 데이터이기에 서버에서 메시지에 id를 부여할 것.
 */
 
 // 클라이언트 정보. 현재 창을 이용하는 멤버 정보. connect 시에 초기화
@@ -88,8 +94,8 @@ function printMessage(message) {
   name.setAttribute("class", "msg-info-name");
   name.appendChild(document.createTextNode(message.member.nickname));
   let date = document.createElement("div");
-  name.setAttribute("class", "msg-info-time");
-  name.appendChild(document.createTextNode(message.date));
+  date.setAttribute("class", "msg-info-time");
+  date.appendChild(document.createTextNode(message.date));
 
   let msgInfo = document.createElement("div");
   msgInfo.setAttribute("class", "msg-info");
@@ -129,14 +135,16 @@ function connect(e) {
     alert("아이디와 닉네임을 입력하세요.");
     return;
   } else {
-    // 유저 입력 데이터 화면 삭제
+    // id와 nickname 입력칸을 빈칸으로 초기화
     idInputNode.value = "";
     nicknameInputNode.value = "";
 
+    // id와 nickname이 성공적으로 입력됐다면 멤버 객체를 하나 생성한다.
     member = new Member(id, nickname, `images/${id}.jpg`);
 
     // 서버 연결
     webSocket = new WebSocket("ws://localhost:3000");
+    // 서버로부터 메시지를 받았을 때 onMessage 함수를 실행한다.
     webSocket.onmessage = onMessage;
   }
 }
@@ -215,22 +223,32 @@ function emojiClick(msgId, emojiId) {
 function onMessage(event) {
   // 서버 데이터 획득하여 js object로 변환
   let serverData = JSON.parse(event.data);
-  if (serverData.gubub === "connect") {
-    // connect에 성공했다면
+  console.log(serverData);
+  // gubun은 데이터의 타입을 나타내는 프로퍼티.
+  // gubun이 무엇인지에 따라 실행해야 할 동작들이 달라진다.
+  // 만약 넘어온 데이터가 '연결 성공' 데이터라면~
+  if (serverData.gubun === "connect") {
+    // 서버와의 연결이 성공했다면
     if (serverData.state === "ok") {
       nicknameForm.style.display = "none"; // 닉네임 폼 안 보이게
       msgForm.removeAttribute("style"); // 메시지 폼 보이게
     } else {
       alert("서버 연결에 실패하였습니다.");
     }
-    // 서버에서 메시지 데이터를 받은 순간
+    // 만약 넘어온 데이터가 '메시지' 데이터라면~
   } else if (serverData.gubun === "msg") {
+    // 메시지 객체를 생성. 메시지 클래스는 매개변수로 msg, member를 받는다.
     let message = new Message(serverData.msg, serverData.member);
+    // 서버데이터에 있는 msgId를 받아 메시지 객체의 아이디에 할당.
     message.msgId = serverData.msgId;
+    // 메시지 배열에 생성된 메시지 객체 푸시
     messages.push(message);
     printMessage(message);
+    // 넘어온 데이터의 구분이 이모지라면~
   } else if (serverData.gubun === "emoji") {
+    // messages 배열에서 서버에서 넘어온 msgId와 id를 가진 친구의 인덱스를 찾아서 index 변수에 할당
     let index = messages.findIndex((item) => item.msgId === parseInt(serverData.msgId));
+    // 해당 메시지에 대해 addEmoji 함수 실행.
     messages[index].addEmoji(serverData.emojiId, serverData.memberId);
     printEmoji(messages[index]);
   }

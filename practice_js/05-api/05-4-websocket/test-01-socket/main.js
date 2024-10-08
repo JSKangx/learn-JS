@@ -5,7 +5,6 @@
 let webSocket;
 let nickname;
 let resultNode;
-let msgNode;
 
 // 닉네임을 입력한 후 연결(connect) 버튼을 누르면 실행될 함수
 function connection() {
@@ -13,8 +12,6 @@ function connection() {
   let nicknameNode = document.getElementById("nickname");
   // 서버와 주고 받았던 메시지를 출력할 ul 태그 노드를 획득(기본 : hidden)
   resultNode = document.getElementById("results");
-  // 로그인 후 입력할 인풋 노드 획득
-  msgNode = document.getElementById("msg");
   // 유저 입력 닉네임을 nickname 변수에 할당
   nickname = nicknameNode.value.trim();
 
@@ -70,6 +67,7 @@ function connection() {
 // 유저가 메시지를 입력하고 send 버튼을 눌렀을 때 실행될 함수
 function send() {
   // 유저가 입력한 메시지 값.trim()한 문자열을 msg 변수에 할당.
+  let msgNode = document.getElementById("msg");
   let msg = msgNode.value.trim();
   // 만약 유저가 msg를 잘 입력했다면
   if (msg) {

@@ -17,7 +17,10 @@
       PW <input type="password" id="pw" /> <br />
       <button id="loginBtn" type="submit">Login</button>
     </form>
-    <div id="result"></div>
+    <div id="result" class="invisible">
+      <span id="idSpan"></span>로 로그인되었습니다.
+      <button onclick="logout()">logout</button>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

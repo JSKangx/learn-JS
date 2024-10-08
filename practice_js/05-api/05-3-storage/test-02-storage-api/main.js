@@ -39,12 +39,14 @@ const removeTest = () => {
 // 스토리지에 있는 모든 데이터를 획득해서 핸들링할 수 있다.
 const getAllDataTest = () => {
   // (1) for 문으로 모든 데이터 획득
-  // for (let i = 0; i < sessionStorage.length; i++) {
-  //   let key = sessionStorage.key(i);
-  //   console.log(key, sessionStorage.getItem(key));
-  // }
+  for (let i = 0; i < sessionStorage.length; i++) {
+    // sessionStorage.key(index) : 해당 키를 문자열로 반환함.
+    let key = sessionStorage.key(i);
+    console.log(key, sessionStorage.getItem(key));
+  }
 
   // (2) forEach 문으로 모든 데이터 획득
+  // Object.keys(obj) : 객체의 모든 프로퍼티 키를 배열 형태로 반환.
   let keys = Object.keys(sessionStorage);
   keys.forEach((key) => {
     console.log(key, sessionStorage.getItem(key));

@@ -6,43 +6,50 @@
   (3) id, pw 유효성 검증까지 하자. trim, length
 */
 
-let myFormNode = document.getElementById("myForm");
-let resultNode = document.getElementById("result");
-let idInputNode = document.getElementById("id");
-let pwInputNode = document.getElementById("pw");
+function switchShowHide(show, hide) {
+  show.removeAttribute("class");
+  hide.setAttribute("class", "invisible");
+}
 
 function logout() {
-  myFormNode.removeAttribute("class");
-  resultNode.innerHTML = "";
   localStorage.removeItem("id");
   idInputNode.value = "";
   pwInputNode.value = "";
+  switchShowHide(myFormNode, resultNode);
 }
 
+// DOM 노드 획득
+let myFormNode = document.getElementById("myForm");
+let idInputNode = document.getElementById("id");
+let pwInputNode = document.getElementById("pw");
+let resultNode = document.getElementById("result");
+let idSpanNode = document.getElementById("idSpan");
+
+// 폼 제출시 실행할 함수
 myFormNode.addEventListener("submit", (e) => {
   e.preventDefault();
+  // 로그인 유효성 검증
   let id = idInputNode.value;
   let pw = pwInputNode.value;
-  if (id === pw) {
-    id = id;
-    localStorage.setItem("id", id);
-    myFormNode.setAttribute("class", "invisible");
-    resultNode.innerHTML = `
-      ${id}으로 로그인되었습니다.
-      <button onclick="logout()">logout</button>
-    `;
+  if (id.trim().length === 0 || pw.trim().length === 0) {
+    alert("아이디와 패스워드를 입력해주세요.");
+  } else if (id !== pw) {
+    alert("아이디와 비밀번호가 일치하지 않습니다.");
   } else {
-    resultNode.innerHTML = "로그인에 실패하였습니다. 아이디 비밀번호를 확인하세요.";
+    // console.log("로그인에 성공하였습니다.");
+    // 로그인 성공시 실행할 코드
+    idSpanNode.innerHTML = id;
+    localStorage.setItem("id", id);
+    switchShowHide(resultNode, myFormNode);
   }
 });
 
-window.addEventListener("load", () => {
-  if (localStorage.getItem("id")) {
-    let savedId = localStorage.getItem("id");
-    resultNode.innerHTML = `
-      ${savedId}으로 로그인되었습니다.
-      <button onclick="logout()">logout</button>
-    `;
-    myFormNode.setAttribute("class", "invisible");
+window.onload = function () {
+  let savedId = localStorage.getItem("id");
+  if (savedId) {
+    idSpanNode.innerHTML = savedId;
+    switchShowHide(resultNode, myFormNode);
+  } else {
+    switchShowHide(myFormNode, resultNode);
   }
-});
+};

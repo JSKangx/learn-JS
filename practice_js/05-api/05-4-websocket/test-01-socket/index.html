@@ -4,16 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
     <script src="main.js"></script>
   </head>
   <body>
     <div id="connectDiv">
       <!-- 닉네임 입력 받고 버튼을 눌렀을 때 서버로 연결 요청 -->
+      닉네임을 입력하고 connect 버튼을 누르면 서버와 연결됩니다. <br />
       <input type="text" name="" id="nickname" />
-      <button onclick="connection()">connection</button>
+      <button onclick="connection()">connect</button>
     </div>
-    <div style="display: none" id="msgDiv">
-      <p><span id="nicknameResult"></span>으로 메시지가 전송됩니다.</p>
+    <div class="hidden" id="msgDiv">
+      <p><span id="nicknameResult"></span>님, 보낼 메시지를 입력하세요.</p>
       <input type="text" name="" id="msg" />
       <button onclick="send()">send</button>
     </div>

@@ -6,6 +6,10 @@ body {
   overflow: hidden;
 }
 
+.hidden {
+  display: none;
+}
+
 .msger {
   display: flex;
   flex-flow: column wrap;

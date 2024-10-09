@@ -47,11 +47,9 @@ let messages = [];
   근데 이 id값은 클라이언트가 유지하는 게 아니라 서버에서 유지해야 하는 데이터이기에 서버에서 메시지에 id를 부여할 것.
 */
 
-// 클라이언트 정보. 현재 창을 이용하는 멤버 정보. connect 시에 초기화
-let member;
-
-// 서버 연결 정보
-let webSocket;
+// connect 시에 값 할당할 변수 미리 선언
+let member; // 클라이언트 정보. 현재 창을 이용하는 멤버 정보.
+let webSocket; // 서버 연결 정보
 
 let idInputNode = document.getElementById("idInput");
 let nicknameInputNode = document.getElementById("nicknameInput");
@@ -125,6 +123,13 @@ function printMessage(message) {
   chatMainNode.appendChild(mainNode);
 }
 
+// connect 버튼을 누를 때 실행되는 함수
+/*
+  (1) id, nickname 유효성 검증
+  (2) 새 멤버 객체 생성
+  (3) 서버 연결
+    - 서버로부터 메시지를 받았을 때 실행될 콜백 함수
+*/
 function connect(e) {
   e.preventDefault();
   // 유저 입력 데이터 획득
@@ -133,13 +138,20 @@ function connect(e) {
   // 유효성 검증
   if (id.trim().length === 0 || nickname.trim().length === 0) {
     alert("아이디와 닉네임을 입력하세요.");
+    // return을 안 써도 else 블록 안에 있는 코드는 실행이 안 되지만, 코드 가독성을 높이기 위해 써 준 것이다.
     return;
   } else {
-    // id와 nickname 입력칸을 빈칸으로 초기화
+    // id와 nickname 입력칸을 빈칸으로 초기화하는 이유
+    /*
+      (1) 로그인이 실패했을 경우 입력칸을 비워줌으로써 사용자 경험을 향상시킨다.
+      (2) 화면이 숨겨졌지만, 나중에 다시 나타날 때 칸이 초기화되지 않은 상태로 나타날 수 있다. 그것을 미리 방지하기 위해 초기화해준 것이다.
+      (3) UI 업데이트가 지연되는 경우, 화면에서 입력 필드를 제거하거나 숨기기 전에, 입력 값을 미리 지워서 사용자가 로그인이 성공했음을 더 명확하게 인지하게 할 수도 있다.
+    */
     idInputNode.value = "";
     nicknameInputNode.value = "";
 
     // id와 nickname이 성공적으로 입력됐다면 멤버 객체를 하나 생성한다.
+    // 이 브라우저 창에는 하나의 멤버객체만 생성되기 때문에 그냥 변수명을 member라고 해도 된다.
     member = new Member(id, nickname, `images/${id}.jpg`);
 
     // 서버 연결
@@ -149,6 +161,13 @@ function connect(e) {
   }
 }
 
+// send 버튼을 누를 때 실행되는 함수
+/*
+  (0) 메시지 입력 유효성 검증
+  (1) 메시지 객체 생성
+    - 생성된 객체에 데이터 구분 프로퍼티 추가
+  (2) 생성된 메시지 객체를 서버로 전송
+*/
 function send(e) {
   e.preventDefault();
   let msg = msgInputNode.value;
@@ -165,7 +184,7 @@ function send(e) {
     // 일반 메시지냐, 이모지냐를 구분하기 위해서.
     message.gubun = "msg";
 
-    // 메시지 데이터 유지 및 화면 출력은 서버에서 처리한다.
+    // 만든 메시지 객체를 서버로 전송.
     webSocket.send(JSON.stringify(message));
   }
 }
@@ -211,8 +230,11 @@ function printEmoji(message) {
 // 이전에 이모지를 달려면 아이디를 입력해야했지만, 이제는 로그인 기능을 이용할 것이므로 기능이 달라져야 한다.
 function emojiClick(msgId, emojiId) {
   let emoji = new Emoji(emojiId);
+  // 이 브라우저에서 로그인 된 멤버의 아이디
   emoji.memberId = member.id;
+  // printMessage로 출력된 메시지의 id를 할당
   emoji.msgId = msgId;
+  // gubun이라는 프로퍼티를 새롭게 만듬.
   emoji.gubun = "emoji";
 
   // 만들어진 emoji 객체를 서버에 전송
@@ -253,3 +275,9 @@ function onMessage(event) {
     printEmoji(messages[index]);
   }
 }
+
+/*
+  결국 서버가 받는 데이터 2개, 보내는 데이터 1개다.
+  (1) 받는 데이터 : 메시지 데이터, 이모지 데이터
+  (2) 보내는 데이터 : 메시지 데이터, 이모지 데이터, 접속 완료 데이터
+*/

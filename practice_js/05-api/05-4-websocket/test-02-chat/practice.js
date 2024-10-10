@@ -22,7 +22,6 @@ class Emoji {
 
 class Message {
   constructor(msg, member) {
-    this.msgId = ++msgId;
     this.msg = msg;
     this.member = member;
     this.date = new Date().toLocaleString();
@@ -48,7 +47,6 @@ let webSocket; // (2) 서버와 연결할 때 (2) 서버로 데이터 보낼 때
 
 let idInputNode = document.getElementById("idInput");
 let nicknameInputNode = document.getElementById("nicknameInput");
-let msgInputNode = document.getElementById("msgInput");
 let chatMainNode = document.getElementById("chat-main");
 
 // 화면에 있는 두 개의 폼 노드 획득
@@ -77,7 +75,7 @@ function connect(e) {
     idInputNode.value = "";
     nicknameInputNode.value = "";
     // (3)
-    member = new Member(id, nickname, `${id}.jpg`);
+    member = new Member(id, nickname, `images/${id}.jpg`);
     // (4)
     connectFormNode.style.display = "none";
     msgFormNode.removeAttribute("style");
@@ -86,6 +84,12 @@ function connect(e) {
     // (6)
     webSocket.onmessage = onMessage;
   }
+}
+
+// 서버에서 데이터를 받았을 때 실행될 함수
+function onMessage(data) {
+  // let receivedData = JSON.parse(data);
+  console.log(data);
 }
 
 function printMessage(message) {
@@ -121,8 +125,8 @@ function printMessage(message) {
   name.setAttribute("class", "msg-info-name");
   name.appendChild(document.createTextNode(message.member.nickname));
   let date = document.createElement("div");
-  name.setAttribute("class", "msg-info-time");
-  name.appendChild(document.createTextNode(message.date));
+  date.setAttribute("class", "msg-info-time");
+  date.appendChild(document.createTextNode(message.date));
 
   let msgInfo = document.createElement("div");
   msgInfo.setAttribute("class", "msg-info");
@@ -152,26 +156,30 @@ function printMessage(message) {
   chatMainNode.appendChild(mainNode);
 }
 
+let msgInputNode = document.getElementById("msgInput");
+// send 버튼을 누를 때 실행될 함수
+/*
+  (1) 메시지 입력 유효성 검사
+  (2) 새 메시지 객체 생성
+  - 메시지 객체에 데이터 구분 멤버 삽입
+  - 메시지 객체 messages 배열에 추가
+  (3) 메시지 입력칸 비워두기
+  (4) 화면에 메시지 출력하기
+  (5) 생성된 메시지 객체 서버로 전송
+*/
 function send(e) {
   e.preventDefault();
-  let id = idInputNode.value;
-  let nickname = nicknameInputNode.value;
   let msg = msgInputNode.value;
-
-  if (id.trim().length === 0 || nickname.trim().length === 0 || msg.trim().length === 0) {
-    alert("아이디, 닉네임, 메시지를 입력해야 합니다.");
+  if (msg.trim().length === 0) {
+    alert("메시지를 입력하세요.");
     return;
   } else {
-    idInputNode.value = "";
-    nicknameInputNode.value = "";
-    msgInputNode.value = "";
-
-    let member = new Member(id, nickname, `images/${id}.jpg`);
-
     let message = new Message(msg, member);
+    message.gubun = "msg";
     messages.push(message);
-
+    msgInputNode.value = "";
     printMessage(message);
+    webSocket.send(JSON.stringify(message));
   }
 }
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #drop_zone {
+        box-shadow: inset 0 0 20px teal;
+        width: 400px;
+        height: 200px;
+      }
+    </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div
+      id="drop_zone"
+      ondrop="dropHandler(event)"
+      ondragover="dragOverHandler(event)"
+    >
+      <p>drop zone</p>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>

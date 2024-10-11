@@ -22,7 +22,7 @@ let data3: void = undefined;
 
 // 함수에서의 void. 리턴 값이 없다는 것을 명시적으로 표현
 // function f1():number {} // Error. 반환값이 number라고 지정 했는데 함수 바디에 number 값을 반환하는 코드가 없다.
-function f1(): number {
+function func1(): number {
   return 2; // number 타입을 반환한다고 했으니 number 타입을 반환해야 한다.
 }
 function f2(): void {} // return 구문이 없으니까 error가 안 뜬다.
